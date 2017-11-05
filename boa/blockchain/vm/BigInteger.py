@@ -1,11 +1,9 @@
 
-
 class BigInteger(int):
 
     @staticmethod
     def FromBytes(data, signed=False):
         """
-
         Convert a bytearray into a BigInteger object
 
         :param data: a bytearray representing an integer
@@ -34,7 +32,6 @@ class BigInteger(int):
         return super(BigInteger, self).__eq__(other)
 
     def ToByteArray(self, signed=True):
-
         """
 
         converts a big integer object into a bytearray

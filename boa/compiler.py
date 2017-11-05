@@ -8,7 +8,7 @@ class Compiler():
 
     The following loads a python file, compiles it to the `.avm` format
     and saves it alongside the python file.
-    
+
     .. code-block:: python
 
         from boa.compiler import Compiler
@@ -23,9 +23,9 @@ class Compiler():
         # retreive the default/entry method for the smart contract
         entry_method = default_module.main
     """
-    
+
     __instance = None
-    
+
     modules = None
 
     def __init__(self):
@@ -39,7 +39,7 @@ class Compiler():
 
         :return: the singleton instance of the Compiler object
         """
-        
+
         if not Compiler.__instance:
             Compiler.__instance = Compiler()
         return Compiler.__instance
@@ -51,13 +51,11 @@ class Compiler():
 
         :return: the default `boa.code.Module` object or None upon exception
         """
-        
+
         try:
             return self.modules[0]
         except Exception as e:
             pass
-            
-        return None
 
     @staticmethod
     def write_file(data, path):
@@ -67,19 +65,18 @@ class Compiler():
         :param data: a byte string of data to write to disk
         :param path: the path to write the file to
         """
-        
+
         with open(path, 'wb+') as out_file:
             out_file.write(data)
-            
-        return None
 
     def write(self):
         """
         Write the default module to a byte string.
 
-        :return: a byte string of the compiled Python program
+        :return: the compiled Python program as a byte string
+        :rtype: bytes
         """
-        
+
         module = self.default
         out_bytes = bytes(module.write())
 
@@ -93,27 +90,26 @@ class Compiler():
 
         :param path: The path of the Python file to compile
         :param output_path: Optional path to save the compiled `.avm` file
-        :return: Returns the instance of the compiler
+        :return: the instance of the compiler
 
-        Usage:
         The following returns the compiler object for inspection
 
         .. code-block:: python
 
             from boa.compiler import Compiler
-        
+
             Compiler.load_and_save('path/to/your/file.py')
         """
 
         compiler = Compiler.load(path)
         data = compiler.write()
 
-        if output_path is None:   
+        if output_path is None:
             fullpath = os.path.realpath(path)
             path, filename = os.path.split(fullpath)
             newfilename = filename.replace('.py', '.avm')
             output_path = '%s/%s' % (path, newfilename)
-        
+
         Compiler.write_file(data, output_path)
 
         return data
@@ -126,13 +122,12 @@ class Compiler():
         :param path: the path of the Python file to compile
         :return: The instance of the compiler
 
-        Usage:
         The following returns the compiler object for inspection.
 
         .. code-block:: python
 
             from boa.compiler import Compiler
-        
+
             compiler = Compiler.load('path/to/your/file.py')
         """
 
